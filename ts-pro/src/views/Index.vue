@@ -1,6 +1,10 @@
 <template>
   <div class="index">
     <h1>This is an Index page</h1>
+    <a-row>
+      <a-icon v-show="!device" class="icon" type="mobile" />
+      <a-icon v-show="device" class="icon" type="desktop" />
+    </a-row>
     <a-radio-group
       :value="dimension"
       @change="onChange"
@@ -18,7 +22,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component/* , Vue */ } from 'vue-property-decorator'
+import { AppModule } from '@/store/modules/app'
+import resizeMixin from '@/mixin/resize'
+import { mixins } from 'vue-class-component'
 
 interface IRouter {
   path: string;
@@ -37,7 +44,8 @@ const demensions: IRouter[] = [{
 @Component({
   name: 'Index'
 })
-export default class extends Vue {
+// export default class extends Vue {
+export default class extends mixins(resizeMixin) {
   private dimension = 0;
   private dimensionOption = demensions;
   // eslint-disable-next-line
@@ -46,5 +54,16 @@ export default class extends Vue {
     this.dimension = index
     this.$router.push(this.dimensionOption[index].path)
   }
+
+  get device () {
+    return AppModule.device
+  }
 };
 </script>
+
+<style lang="less">
+  .icon {
+    font-size: 30px;
+    color: #40a9ff;
+  }
+</style>

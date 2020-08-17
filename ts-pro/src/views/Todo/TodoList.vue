@@ -12,7 +12,10 @@
         v-for="(todo, index) in shownTodos"
         :key="index"
         :todo="todo"
-        @edit="changeTodo"
+        :isEditting="isEdittingIndex === index"
+        @edit="changeTodo(index)"
+        @cancel="cancelEdit"
+        @save="saveChange"
       />
     </ul>
     <a-button type="primary" @click="addTodo">添加待办</a-button>
@@ -20,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import TodoItem, { Todo } from './TodoItem.vue'
 
 const filters: { [key: string]: Function } = {
@@ -40,13 +43,24 @@ const defaultTasks = [{
   done: true
 }]
 
+const slogans = ['小声点', '你吵到我用', 'TNT了！']
+
 @Component({
   name: 'TodoList',
   components: { TodoItem }
 })
 export default class extends Vue {
+  @Watch('showType', { immediate: true })
+  private onShowTypeChange (value: string) {
+    const index = Object.keys(this.filters).findIndex(k => k === value)
+    this.$message.warn(slogans[index])
+  }
+
   private todos = defaultTasks;
+
   private showType = 'all';
+
+  private isEdittingIndex = -1;
 
   get filters () {
     return filters
@@ -78,8 +92,17 @@ export default class extends Vue {
     })
   }
 
-  private changeTodo () {
+  private changeTodo (index: number) {
+    this.isEdittingIndex = index
+  }
+
+  private saveChange () {
     this.$message.success('编辑成功')
+    this.isEdittingIndex = -1
+  }
+
+  private cancelEdit () {
+    this.isEdittingIndex = -1
   }
 
   private addTodo () {

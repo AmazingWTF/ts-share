@@ -4,11 +4,11 @@
     <a-input
       v-show="isEditting"
       v-model="todo.label"
-      @keyup.enter="editTodo(todo)"
+      @keyup.enter="save(todo)"
     />
     <span v-show="!isEditting" style="padding: 0 10px; flex: 1; text-align: left">{{ todo.label }}</span>
-    <a-icon v-show="!isEditting" type="edit" @click="changeEditStatus(true)" />
-    <a-icon v-show="isEditting" type="close" @click="changeEditStatus(false)" />
+    <a-icon v-show="!isEditting" type="edit" @click="editTodo" />
+    <a-icon v-show="isEditting" type="close" @click="cancel" />
   </li>
 </template>
 
@@ -24,21 +24,23 @@ export interface Todo {
   name: 'TodoItem'
 })
 export default class extends Vue {
+  // 这里要使用 !: 赋值，表明，否则报错(因为没赋值，)
   @Prop({ default: { label: '马什么梅啊？', done: false } }) private todo!: Todo;
-  // @Prop({ default: false }) private isEditting!: boolean;
-  private isEditting = false
+  @Prop({ default: -1 }) private isEditting!: boolean;
 
   private editedLabel = ''
 
   private editTodo () {
     if (this.todo.done) return
     this.$emit('edit', this.todo)
-    this.isEditting = false
   }
 
-  private changeEditStatus (bol: boolean) {
-    if (this.todo.done && bol) return
-    this.isEditting = bol
+  private cancel () {
+    this.$emit('cancel')
+  }
+
+  private save () {
+    this.$emit('save')
   }
 
   private toggleTodo () {
