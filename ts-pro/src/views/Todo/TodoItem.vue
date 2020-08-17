@@ -1,14 +1,14 @@
 <template>
   <li class="todo-item" :class="{done: todo.done}">
-    <a-radio :checked="todo.done"/>
+    <a-checkbox :checked="todo.done" @change="toggleTodo"/>
     <a-input
       v-show="isEditting"
       v-model="todo.label"
       @keyup.enter="editTodo(todo)"
     />
     <span v-show="!isEditting" style="padding: 0 10px; flex: 1; text-align: left">{{ todo.label }}</span>
-    <a-icon v-show="!isEditting" type="edit" @click="isEditting = true" />
-    <a-icon v-show="isEditting" type="close" @click="isEditting = false" />
+    <a-icon v-show="!isEditting" type="edit" @click="changeEditStatus(true)" />
+    <a-icon v-show="isEditting" type="close" @click="changeEditStatus(false)" />
   </li>
 </template>
 
@@ -31,8 +31,18 @@ export default class extends Vue {
   private editedLabel = ''
 
   private editTodo () {
+    if (this.todo.done) return
     this.$emit('edit', this.todo)
     this.isEditting = false
+  }
+
+  private changeEditStatus (bol: boolean) {
+    if (this.todo.done && bol) return
+    this.isEditting = bol
+  }
+
+  private toggleTodo () {
+    this.todo.done = !this.todo.done
   }
 }
 </script>
@@ -43,6 +53,8 @@ export default class extends Vue {
     align-items: center;
     height: 30px;
     line-height: 30px;
+    box-sizing: content-box;
+    padding: 5px;
     margin: 10px;
     box-shadow: 0px 3px 5px 0 rgba(0, 0, 0, 0.2);
     &.done {

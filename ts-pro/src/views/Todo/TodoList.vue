@@ -68,8 +68,8 @@ export default class extends Vue {
     return filters[this.showType](this.todos)
   }
 
-  private toggleTodo (todo: Todo) {
-    todo.done = !todo.done
+  private toggleTodo () {
+    // todo.done = !todo.done
   }
 
   private toggleALl (done: boolean) {
