@@ -8,14 +8,14 @@
     />
     <span v-show="!isEditting" style="padding: 0 10px; flex: 1; text-align: left">{{ todo.label }}</span>
     <a-icon v-show="!isEditting" type="edit" @click="editTodo" />
-    <a-icon v-show="isEditting" type="close" @click="cancel" />
+    <a-icon v-show="isEditting" type="close" @click="onCancel" />
   </li>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 
-export interface Todo {
+export interface ITodo {
   label: string;
   done: boolean;
 }
@@ -25,18 +25,22 @@ export interface Todo {
 })
 export default class extends Vue {
   // 这里要使用 !: 赋值，表明，否则报错(因为没赋值，)
-  @Prop({ default: { label: '马什么梅啊？', done: false } }) private todo!: Todo;
+  @Prop({ default: { label: '马什么梅啊？', done: false } }) private todo!: ITodo;
   @Prop({ default: -1 }) private isEditting!: boolean;
+
+  @Emit('cancel')
+  onCancel () {
+    console.log('取消编辑')
+  }
+  // private onCancel () {
+  //   this.$emit('cancel')
+  // }
 
   private editedLabel = ''
 
   private editTodo () {
     if (this.todo.done) return
     this.$emit('edit', this.todo)
-  }
-
-  private cancel () {
-    this.$emit('cancel')
   }
 
   private save () {

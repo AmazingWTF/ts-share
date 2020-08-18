@@ -39,6 +39,11 @@ export default class extends Vue {
 
   resizeHandler () {
     const isMobile = this.isMobile()
-    AppModule.ToggleDevice(isMobile ? DeviceType.Mobile : DeviceType.Desktop)
+    const device: DeviceType = isMobile ? DeviceType.Mobile : DeviceType.Desktop
+    const oldDevice = AppModule.device
+    AppModule.ToggleDevice(device)
+    if (oldDevice !== device) {
+      this.onRouteChange()
+    }
   }
 }

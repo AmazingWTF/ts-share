@@ -24,12 +24,12 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import TodoItem, { Todo } from './TodoItem.vue'
+import TodoItem, { ITodo } from './TodoItem.vue'
 
 const filters: { [key: string]: Function } = {
-  all: (todos: Todo[]) => todos,
-  active: (todos: Todo[]) => todos.filter((todo) => !todo.done),
-  completed: (todos: Todo[]) => todos.filter((todo) => todo.done)
+  all: (todos: ITodo[]) => todos,
+  active: (todos: ITodo[]) => todos.filter((todo) => !todo.done),
+  completed: (todos: ITodo[]) => todos.filter((todo) => todo.done)
 }
 
 const defaultTasks = [{

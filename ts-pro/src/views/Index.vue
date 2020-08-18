@@ -22,9 +22,10 @@
 </template>
 
 <script lang="ts">
-import { Component/* , Vue */ } from 'vue-property-decorator'
+// import { Component, Vue } from 'vue-property-decorator'
+import { Component } from 'vue-property-decorator'
 import { AppModule } from '@/store/modules/app'
-import resizeMixin from '@/mixin/resize'
+import ResizeMixin from '@/mixin/resize'
 import { mixins } from 'vue-class-component'
 
 interface IRouter {
@@ -44,8 +45,8 @@ const demensions: IRouter[] = [{
 @Component({
   name: 'Index'
 })
-// export default class extends Vue {
-export default class extends mixins(resizeMixin) {
+// export default class ResizeMixin extends Vue {
+export default class extends mixins(ResizeMixin) {
   private dimension = 0;
   private dimensionOption = demensions;
   // eslint-disable-next-line
