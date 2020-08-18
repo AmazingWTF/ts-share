@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue, Watch, Ref } from 'vue-property-decorator'
 import TodoItem, { ITodo } from './TodoItem.vue'
 
 const filters: { [key: string]: Function } = {
@@ -51,6 +51,10 @@ const slogans = ['小声点', '你吵到我用', 'TNT了！']
 })
 export default class extends Vue {
   @Watch('showType', { immediate: true })
+
+  @Ref(/* 'tdItem' */) readonly todoItem!: TodoItem
+  // @Ref() readonly todoItem!: TodoItem
+
   private onShowTypeChange (value: string) {
     const index = Object.keys(this.filters).findIndex(k => k === value)
     this.$message.warn(slogans[index])
@@ -106,6 +110,7 @@ export default class extends Vue {
   }
 
   private addTodo () {
+    console.log(this.todoItem)
     this.todos.push({
       label: '马什么梅啊',
       done: false
