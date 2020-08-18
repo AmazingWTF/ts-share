@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch, Ref } from 'vue-property-decorator'
+import { Component, Vue, Watch/* , Ref */ } from 'vue-property-decorator'
 import TodoItem, { ITodo } from './TodoItem.vue'
 import MyButton from '@/components/button.vue'
 
