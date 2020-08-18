@@ -19,12 +19,14 @@
       />
     </ul>
     <a-button type="primary" @click="addTodo">添加待办</a-button>
+    <my-button />
   </a-card>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch, Ref } from 'vue-property-decorator'
 import TodoItem, { ITodo } from './TodoItem.vue'
+import MyButton from '@/components/button.vue'
 
 const filters: { [key: string]: Function } = {
   all: (todos: ITodo[]) => todos,
@@ -47,12 +49,15 @@ const slogans = ['小声点', '你吵到我用', 'TNT了！']
 
 @Component({
   name: 'TodoList',
-  components: { TodoItem }
+  components: {
+    TodoItem,
+    MyButton
+  }
 })
 export default class extends Vue {
   @Watch('showType', { immediate: true })
 
-  @Ref(/* 'tdItem' */) readonly todoItem!: TodoItem
+  // @Ref('myButton') readonly myButton!: HTMLButtonElement
   // @Ref() readonly todoItem!: TodoItem
 
   private onShowTypeChange (value: string) {
@@ -110,7 +115,7 @@ export default class extends Vue {
   }
 
   private addTodo () {
-    console.log(this.todoItem)
+    // console.log(this.myButton)
     this.todos.push({
       label: '马什么梅啊',
       done: false
