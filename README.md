@@ -16,4 +16,15 @@ npm install -g typescript
 tsc index.ts
 ```
 
-## 
+## vue-property-decorator
++ @Component
++ @Prop
++ @PropSync
++ @Watch
++ @Emit
++ @Ref
++ @Provide
++ @ProvideReactive
++ @Inject
++ @InjectReactive
++ @Model
